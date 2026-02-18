@@ -1,0 +1,9 @@
+{
+  "name": "visual-experiment",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Space telemetry visual experiment",
+  "scripts": {
+    "dev": "python3 -m http.server 4210 --bind 127.0.0.1"
+  }
+}
