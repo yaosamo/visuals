@@ -1,6 +1,21 @@
-# Visual Experiment
+# Visuals
 
-Space telemetry HUD inspired by the `space-experiment/ref.png` reference.
+A multi-experiment visual playground.
+
+Current experiment:
+- `face-scan` (radial scan with interactive dash controls)
+
+## Structure
+
+```text
+src/
+  app.js                         # experiment registry + loader
+  style.css                      # shared/base styles
+  experiments/
+    face-scan/
+      index.js                   # experiment mount logic
+      style.css                  # experiment-specific styles
+```
 
 ## Run
 
@@ -8,4 +23,6 @@ Space telemetry HUD inspired by the `space-experiment/ref.png` reference.
 npm run dev
 ```
 
-Open: http://127.0.0.1:4210/index.html
+Open:
+- default: http://127.0.0.1:4210/index.html
+- explicit experiment: http://127.0.0.1:4210/index.html?exp=face-scan
