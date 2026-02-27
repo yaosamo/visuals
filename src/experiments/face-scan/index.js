@@ -9,7 +9,7 @@ export const faceScanExperiment = {
   <main class="scan-screen" aria-label="Face scan visual experiment">
     <canvas id="scan-canvas"></canvas>
     <div class="scan-center" id="scan-center">0%</div>
-    <section class="test-controls" id="test-controls" aria-label="Animation Controls (Test)">
+    <section class="test-controls is-hidden" id="test-controls" aria-label="Animation Controls (Test)">
       <h2>Animation Controls (Test)</h2>
       <label>
         Line Count
