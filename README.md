@@ -25,4 +25,9 @@ npm run dev
 
 Open:
 - default: http://127.0.0.1:4210/index.html
-- explicit experiment: http://127.0.0.1:4210/index.html?exp=face-scan
+- explicit experiment: http://127.0.0.1:4210/index.html?state=face-scan
+
+Notes:
+- `?state=` is the canonical direct-link param.
+- `?experiment=` and `?exp=` still work for backward compatibility.
+- Loose variants like `?state=facescan` also resolve to `face-scan`.
