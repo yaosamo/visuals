@@ -108,10 +108,6 @@ export const verticalCoverFlowExperiment = {
           <input data-spring-var="--spring-overshoot-rotate" data-unit="deg" type="range" min="0.8" max="3.6" step="0.05" value="2" />
           <output>2deg</output>
         </label>
-        <label class="coverflow__spring-toggle">
-          <span>Perspective</span>
-          <input data-toggle="perspective" type="checkbox" checked />
-        </label>
       </aside>
     `;
 
@@ -119,7 +115,6 @@ export const verticalCoverFlowExperiment = {
     const cards = [...root.querySelectorAll('.coverflow__card')];
     const panel = root.querySelector('.coverflow__spring-panel');
     const controls = [...root.querySelectorAll('[data-spring-var]')];
-    const toggles = [...root.querySelectorAll('[data-toggle]')];
     const holdClasses = ['coverflow__card--hold-left', 'coverflow__card--hold-right'];
     const animateClasses = ['coverflow__card--animate-left', 'coverflow__card--animate-right'];
 
@@ -135,18 +130,6 @@ export const verticalCoverFlowExperiment = {
     };
 
     controls.forEach(updateControlValue);
-
-    const updateToggleValue = (input) => {
-      if (!coverflow) {
-        return;
-      }
-
-      if (input.dataset.toggle === 'perspective') {
-        coverflow.classList.toggle('coverflow--flat', !input.checked);
-      }
-    };
-
-    toggles.forEach(updateToggleValue);
 
     const cancelPendingSettle = (card) => {
       if (card._settleFrameA) {
@@ -193,6 +176,7 @@ export const verticalCoverFlowExperiment = {
     };
 
     const listeners = cards.map((card) => {
+      const surface = card.querySelector('.coverflow__card-surface');
       const handleEnter = () => playRandomHoverTilt(card);
       const handleAnimationEnd = () => {
         card.classList.remove(...animateClasses);
@@ -218,23 +202,17 @@ export const verticalCoverFlowExperiment = {
         }
       };
 
-      card.addEventListener('mouseenter', handleEnter);
-      card.addEventListener('mouseleave', handleLeave);
+      surface?.addEventListener('mouseenter', handleEnter);
+      surface?.addEventListener('mouseleave', handleLeave);
       card.addEventListener('animationend', handleAnimationEnd);
 
-      return { card, handleEnter, handleLeave, handleAnimationEnd };
+      return { card, surface, handleEnter, handleLeave, handleAnimationEnd };
     });
 
     const controlListeners = controls.map((input) => {
       const handleInput = () => updateControlValue(input);
       input.addEventListener('input', handleInput);
       return { input, handleInput };
-    });
-
-    const toggleListeners = toggles.map((input) => {
-      const handleChange = () => updateToggleValue(input);
-      input.addEventListener('change', handleChange);
-      return { input, handleChange };
     });
 
     const handleTogglePanel = (event) => {
@@ -247,17 +225,14 @@ export const verticalCoverFlowExperiment = {
     window.addEventListener('keydown', handleTogglePanel);
 
     return () => {
-      listeners.forEach(({ card, handleEnter, handleLeave, handleAnimationEnd }) => {
+      listeners.forEach(({ card, surface, handleEnter, handleLeave, handleAnimationEnd }) => {
         cancelPendingSettle(card);
-        card.removeEventListener('mouseenter', handleEnter);
-        card.removeEventListener('mouseleave', handleLeave);
+        surface?.removeEventListener('mouseenter', handleEnter);
+        surface?.removeEventListener('mouseleave', handleLeave);
         card.removeEventListener('animationend', handleAnimationEnd);
       });
       controlListeners.forEach(({ input, handleInput }) => {
         input.removeEventListener('input', handleInput);
-      });
-      toggleListeners.forEach(({ input, handleChange }) => {
-        input.removeEventListener('change', handleChange);
       });
       window.removeEventListener('keydown', handleTogglePanel);
     };

@@ -23,7 +23,6 @@ body {
   --spring-overshoot-lift: 1.4em;
   --spring-rotate: 0.6deg;
   --spring-overshoot-rotate: 2deg;
-  --card-depth-tilt: -10deg;
   min-height: 100vh;
   position: relative;
   display: grid;
@@ -32,8 +31,6 @@ body {
   font-size: min(16px, calc((100vh - 160px) / 23.75));
   color: #171717;
   font-family: "Helvetica Neue", "Avenir Next", "Segoe UI", sans-serif;
-  perspective: 1100px;
-  transform-style: preserve-3d;
 }
 
 .coverflow__card {
@@ -44,6 +41,7 @@ body {
   width: 30.909em;
   height: 23.75em;
   max-width: calc(100vw - 64px);
+  pointer-events: none;
 }
 
 .coverflow__card-surface {
@@ -63,13 +61,13 @@ body {
     0 2.5em 5.625em rgba(15, 15, 15, 0.08);
   transform:
     translateY(var(--card-shift))
-    rotateX(var(--card-depth-tilt))
     scale(var(--card-scale));
   transform-origin: 50% 0%;
   transition:
     transform var(--spring-settle-duration) cubic-bezier(0.2, 1, 0.32, 1),
     box-shadow var(--spring-settle-duration) cubic-bezier(0.2, 1, 0.32, 1);
   will-change: transform;
+  pointer-events: auto;
 }
 
 .coverflow__card--animate-left .coverflow__card-surface {
@@ -83,7 +81,6 @@ body {
 .coverflow__card--hold-left .coverflow__card-surface {
   transform:
     translate(-0.24em, calc(var(--card-shift) - var(--spring-overshoot-lift)))
-    rotateX(var(--card-depth-tilt))
     rotate(calc(var(--spring-overshoot-rotate) * -1))
     scale(var(--card-scale));
   box-shadow:
@@ -94,7 +91,6 @@ body {
 .coverflow__card--hold-right .coverflow__card-surface {
   transform:
     translate(0.24em, calc(var(--card-shift) - var(--spring-overshoot-lift)))
-    rotateX(var(--card-depth-tilt))
     rotate(var(--spring-overshoot-rotate))
     scale(var(--card-scale));
   box-shadow:
@@ -106,7 +102,6 @@ body {
   0% {
     transform:
       translateY(var(--card-shift))
-      rotateX(var(--card-depth-tilt))
       scale(var(--card-scale));
     box-shadow:
       0 1.125em 2.5em rgba(15, 15, 15, 0.08),
@@ -116,7 +111,6 @@ body {
   68% {
     transform:
       translate(-0.24em, calc(var(--card-shift) - var(--spring-overshoot-lift)))
-      rotateX(var(--card-depth-tilt))
       rotate(calc(var(--spring-overshoot-rotate) * -1))
       scale(var(--card-scale));
     box-shadow:
@@ -127,7 +121,6 @@ body {
   100% {
     transform:
       translate(-0.24em, calc(var(--card-shift) - var(--spring-overshoot-lift)))
-      rotateX(var(--card-depth-tilt))
       rotate(calc(var(--spring-overshoot-rotate) * -1))
       scale(var(--card-scale));
     box-shadow:
@@ -140,7 +133,6 @@ body {
   0% {
     transform:
       translateY(var(--card-shift))
-      rotateX(var(--card-depth-tilt))
       scale(var(--card-scale));
     box-shadow:
       0 1.125em 2.5em rgba(15, 15, 15, 0.08),
@@ -150,7 +142,6 @@ body {
   68% {
     transform:
       translate(0.24em, calc(var(--card-shift) - var(--spring-overshoot-lift)))
-      rotateX(var(--card-depth-tilt))
       rotate(var(--spring-overshoot-rotate))
       scale(var(--card-scale));
     box-shadow:
@@ -161,7 +152,6 @@ body {
   100% {
     transform:
       translate(0.24em, calc(var(--card-shift) - var(--spring-overshoot-lift)))
-      rotateX(var(--card-depth-tilt))
       rotate(var(--spring-overshoot-rotate))
       scale(var(--card-scale));
     box-shadow:
@@ -238,60 +228,24 @@ body {
   accent-color: #66665f;
 }
 
-.coverflow__spring-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.coverflow__spring-toggle span {
-  font-size: 0.8125em;
-  line-height: 1;
-  color: rgba(23, 23, 23, 0.78);
-}
-
-.coverflow__spring-toggle input {
-  width: 16px;
-  height: 16px;
-  accent-color: #66665f;
-}
-
-.coverflow--flat {
-  perspective: none;
-}
-
-.coverflow--flat .coverflow__card,
-.coverflow--flat .coverflow__card--back,
-.coverflow--flat .coverflow__card--layer-3,
-.coverflow--flat .coverflow__card--layer-4,
-.coverflow--flat .coverflow__card--layer-5,
-.coverflow--flat .coverflow__card--front {
-  --card-depth-tilt: 0deg;
-}
-
 .coverflow__card--back {
   --card-shift: calc(var(--stack-spread) * 0.5);
   --card-scale: 0.965;
-  --card-depth-tilt: -11deg;
 }
 
 .coverflow__card--layer-3 {
   --card-shift: calc(var(--stack-spread) * -0.5);
   --card-scale: 0.94;
-  --card-depth-tilt: -12deg;
 }
 
 .coverflow__card--layer-4 {
   --card-shift: calc(var(--stack-spread) * -1.5);
   --card-scale: 0.915;
-  --card-depth-tilt: -13deg;
 }
 
 .coverflow__card--layer-5 {
   --card-shift: calc(var(--stack-spread) * -2.5);
   --card-scale: 0.89;
-  --card-depth-tilt: -14deg;
 }
 
 .coverflow__card--front {
@@ -386,22 +340,18 @@ body {
 
   .coverflow__card--back {
     --card-scale: 0.975;
-    --card-depth-tilt: -10deg;
   }
 
   .coverflow__card--layer-3 {
     --card-scale: 0.955;
-    --card-depth-tilt: -11deg;
   }
 
   .coverflow__card--layer-4 {
     --card-scale: 0.935;
-    --card-depth-tilt: -12deg;
   }
 
   .coverflow__card--layer-5 {
     --card-scale: 0.915;
-    --card-depth-tilt: -13deg;
   }
 
   .coverflow__description {
