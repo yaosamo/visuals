@@ -26,16 +26,24 @@ body {
   left: 50%;
   top: 16px;
   transform: translateX(-50%);
-  z-index: 50;
+  z-index: 9999;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(14px);
   font: 11px/1.2 "SF Pro Text", -apple-system, "Helvetica Neue", sans-serif;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  color: #111;
+  isolation: isolate;
 }
 
 .exp-picker__label {
-  color: rgba(255, 255, 255, 0.58);
+  color: rgba(17, 17, 17, 0.46);
   text-transform: uppercase;
 }
 
@@ -49,7 +57,7 @@ body {
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.94);
+  color: rgba(17, 17, 17, 0.94);
   border: 0;
   padding: 0 18px 0 0;
   outline: none;
@@ -65,8 +73,8 @@ body {
   right: 2px;
   width: 8px;
   height: 8px;
-  border-right: 1px solid rgba(255, 255, 255, 0.65);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  border-right: 1px solid rgba(17, 17, 17, 0.55);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.55);
   transform: translateY(-2px) rotate(45deg);
   pointer-events: none;
 }
@@ -75,6 +83,7 @@ body {
   .exp-picker {
     top: 12px;
     gap: 8px;
+    padding: 9px 12px;
     font-size: 10px;
   }
 }

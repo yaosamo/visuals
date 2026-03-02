@@ -1,9 +1,11 @@
 import { faceScanExperiment } from './experiments/face-scan/index.js';
+import { verticalCoverFlowExperiment } from './experiments/vertical-cover-flow/index.js';
 
 const app = document.querySelector('#app');
 const EXPERIMENT_PARAM_KEYS = ['state', 'experiment', 'exp'];
+let activeCleanup = null;
 
-const experiments = [faceScanExperiment];
+const experiments = [faceScanExperiment, verticalCoverFlowExperiment];
 const experimentMap = new Map(experiments.map((exp) => [exp.id, exp]));
 const normalizedExperimentMap = new Map(experiments.map((exp) => [normalizeExperimentToken(exp.id), exp.id]));
 
@@ -56,6 +58,9 @@ function ensureExperimentStyle(stylePath) {
 }
 
 function renderExperimentPicker(activeId) {
+  const existing = document.querySelector('.exp-picker');
+  if (existing) existing.remove();
+
   const picker = document.createElement('aside');
   picker.className = 'exp-picker';
   picker.innerHTML = `
@@ -86,12 +91,17 @@ function renderExperimentPicker(activeId) {
 }
 
 function mountActiveExperiment() {
+  if (typeof activeCleanup === 'function') {
+    activeCleanup();
+    activeCleanup = null;
+  }
+
   const id = selectedExperimentId();
   const experiment = experimentMap.get(id) || experiments[0];
   syncExperimentUrl(experiment.id);
   ensureExperimentStyle(experiment.stylePath);
   app.innerHTML = '';
-  experiment.mount(app);
+  activeCleanup = experiment.mount(app) || null;
   renderExperimentPicker(experiment.id);
 }
 
