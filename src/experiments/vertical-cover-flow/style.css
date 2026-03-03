@@ -47,6 +47,7 @@ body {
   height: 23.75em;
   max-width: calc(100vw - 64px);
   pointer-events: none;
+  z-index: 1;
 }
 
 .coverflow__card.is-floating {
@@ -265,27 +266,31 @@ body {
 }
 
 .coverflow__card--back {
+  z-index: 5;
   --card-shift: calc(var(--stack-spread) * 0.5);
   --card-scale: 0.965;
 }
 
 .coverflow__card--layer-3 {
+  z-index: 4;
   --card-shift: calc(var(--stack-spread) * -0.5);
   --card-scale: 0.94;
 }
 
 .coverflow__card--layer-4 {
+  z-index: 3;
   --card-shift: calc(var(--stack-spread) * -1.5);
   --card-scale: 0.915;
 }
 
 .coverflow__card--layer-5 {
+  z-index: 2;
   --card-shift: calc(var(--stack-spread) * -2.5);
   --card-scale: 0.89;
 }
 
 .coverflow__card--front {
-  z-index: 2;
+  z-index: 6;
   --card-shift: calc(var(--stack-spread) * 1.5);
 }
 

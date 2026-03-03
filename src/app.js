@@ -64,14 +64,18 @@ function renderExperimentPicker(activeId) {
   const picker = document.createElement('aside');
   picker.className = 'exp-picker';
   picker.innerHTML = `
-    <label class="exp-picker__label" for="exp-select">Experiment</label>
-    <div class="exp-picker__select-wrap">
-      <select id="exp-select"></select>
-      <span class="exp-picker__chevron" aria-hidden="true"></span>
+    <div class="exp-picker__chrome" aria-hidden="true">
+      <span class="exp-picker__label">Experiment</span>
+      <div class="exp-picker__select-wrap">
+        <span class="exp-picker__value"></span>
+        <span class="exp-picker__chevron" aria-hidden="true"></span>
+      </div>
     </div>
+    <select id="exp-select" aria-label="Select experiment"></select>
   `;
 
   const select = picker.querySelector('#exp-select');
+  const value = picker.querySelector('.exp-picker__value');
 
   for (const exp of experiments) {
     const option = document.createElement('option');
@@ -81,7 +85,15 @@ function renderExperimentPicker(activeId) {
     select.appendChild(option);
   }
 
+  const syncPickerValue = () => {
+    const selected = select.selectedOptions[0];
+    if (value) value.textContent = selected ? selected.textContent : '';
+  };
+
+  syncPickerValue();
+
   select.addEventListener('change', () => {
+    syncPickerValue();
     const next = select.value;
     syncExperimentUrl(next, 'push');
     window.location.reload();
